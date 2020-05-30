@@ -23,13 +23,12 @@ Eine digitale To-do Liste mit Datenbank und Backend, für den Browser.
     $db_name = "to-do";
 
     //Mit der Datenbank verbinden
-    $db = mysqli_connect($server, $user, $pwd, $db_name);
+    $db = new mysqli($server, $user, $pwd, $db_name);
 
     //Verbindung überprüfen
-    if (!$db) {
+    if ($db->connect_error) {
         http_response_code(500);
-        echo "Connection to database failed: " . mysqli_connect_error();
-        exit;
+        die("Connection to database failed: " . $db->connect_error);
     }
     ?>
     ```
