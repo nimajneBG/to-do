@@ -60,50 +60,58 @@ function Delete() {
 //Request fürs Löschen senden
 function deleteRequest(x) {
 
-    let r = new XMLHttpRequest();
-
-    r.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                console.log('Löschung erfolgreich abgeschlossen✅');
-                if (typeof (x) == "number") {
-                    let deletedElement = document.getElementById('item-' + x);
-                    deletedElement.style.display = 'none';
-                    checkAfterDelete();
-                } else {
-                    location.reload();
-                }
-            } else {
-                console.error('Fehler beim Löschen');
-            }
+    const r = new Request(
+        'api.php',
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'del=' + x,
         }
-    }
-    r.open('POST', 'api.php', true);
-    r.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    r.send('del=' + x);
+    )
+    fetch(r).then((result) => {
+        console.log(result);
+        if (result.ok) {
+            if (typeof (x) == "number") {
+                let deletedElement = document.getElementById('item-' + x);
+                deletedElement.style.display = 'none';
+                checkAfterDelete();
+            } else {
+                location.reload();
+            }
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    })
+    .catch((error) => {
+        console.error('Fehler beim löschen: ' + error);
+    });
 
 }
 
 //Abhacken
 function ToggleStatus(id = Number) {
-    //AJAX
-    let r = new XMLHttpRequest();
-    let checkbox = document.getElementById('checkbox-' + id);
+    let checkbox = document.getElementById("checkbox-" + id);
 
-    r.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                console.log('✅');
-                checkbox.classList.toggle('checked');
-            } else {
-                console.error('Fehler beim Abhaken');
-            }
+    const r = new Request(
+        'api.php',
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'del=' + x,
         }
-    }
-
-    r.open('POST', 'api.php', true);
-    r.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    r.send('id=' + id);
+    )
+    fetch(r).then((result) => {
+        console.log(result);
+        if (result.ok) {
+            console.log('✅');
+            checkbox.classList.toggle('checked');
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    })
+    .catch((error) => {
+        console.error('Fehler beim Abhaken: ' + error);
+    });
 
 }
 
