@@ -43,6 +43,37 @@ if (isset($_POST["del"])) {
     }
 }
 
+//Änderungen Abrufen
+if (isset($_GET["get_tasks"])) {
+    //Aus der Datenbank abrufen (SQL)
+    $statement = $db->prepare("SELECT `title`, `status`, `id` FROM `tasks` WHERE `user`=?");
+    $statement -> bind_param('s', $user_name);
+    $statement -> execute();
+    $result = $statement -> get_result();
+    $statement -> close();
+
+    //Ausgeben (als JSON)
+    header('Content-Type: application/json');
+    if ($result->num_rows > 0) {
+        $tasks = array();
+        while ($row = $result -> fetch_assoc()) {
+            $task = new stdClass();
+            $task->id = $row['id'];
+            $task->title = html_entity_decode($row['title']);
+            if ($row['status'] == 1) {
+                $task->status = true;
+            } elseif ($row['status'] == 0) {
+                $task->status = false;
+            }
+            array_push($tasks, $task);
+    
+        }
+        echo(json_encode($tasks));
+    } else {
+        echo '{"tasks" : false}';
+    }
+}
+
 //Verbindung schließen
-$db->close();
+$db -> close();
 ?>
