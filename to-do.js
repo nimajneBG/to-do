@@ -1,8 +1,11 @@
 //Variablen
 const body = document.body;
+const url = 'api.php';
+var nowJSON = [];
 
 //Autostart
 ReadCookie();
+setInterval(checkChanges, 20000);
 
 //Überprüfen, ob nach dem Löschen noch Aufgaben vorhanden sind
 //Wenn nicht wird "Huch, (noch) keine Aufgaben...  Das ist doch nicht möglich!😉" ausgeben
@@ -61,10 +64,10 @@ function Delete() {
 function deleteRequest(x) {
 
     const r = new Request(
-        'api.php',
+        url,
         {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'del=' + x,
         }
     )
@@ -82,9 +85,9 @@ function deleteRequest(x) {
             throw new Error('Network response was not ok');
         }
     })
-    .catch((error) => {
-        console.error('Fehler beim löschen: ' + error);
-    });
+        .catch((error) => {
+            console.error('Fehler beim löschen: ' + error);
+        });
 
 }
 
@@ -93,11 +96,11 @@ function ToggleStatus(id = Number) {
     let checkbox = document.getElementById("checkbox-" + id);
 
     const r = new Request(
-        'api.php',
+        url,
         {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'del=' + x,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id,
         }
     )
     fetch(r).then((result) => {
@@ -109,9 +112,9 @@ function ToggleStatus(id = Number) {
             throw new Error('Network response was not ok');
         }
     })
-    .catch((error) => {
-        console.error('Fehler beim Abhaken: ' + error);
-    });
+        .catch((error) => {
+            console.error('Fehler beim Abhaken: ' + error);
+        });
 
 }
 
@@ -220,11 +223,78 @@ function newTask(title = String, status = Boolean, id = Number) {
     }
     newCheckbox.setAttribute('id', 'checkbox-' + id);
     newTaskLink.appendChild(newCheckbox);
-    
+
     //Löschen Button
     let newDeleteButton = document.createElement('BUTTON');
     newDeleteButton.classList.add('delete-button');
     newDeleteButton.setAttribute('onclick', 'deleteRequest("' + id + '");');
     newDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
     newTask.appendChild(newDeleteButton);
+}
+
+function compareChanges(client = Array, server = Array) {
+    console.log('+1');
+    
+    if (client.length == server.length) {
+        var max = client.length;
+    } else if (client.length < server.length) {
+        var max = server.length;
+    } else if (client.length > server.length) {
+        var max = client.length;
+    }
+
+    for (let i = 0; i < max; i++) {
+        if (i >= client.length) {
+            let task = server[i];
+            newTask(task.title, task.status, task.id);
+            console.log('Neue Aufgabe: ', task);
+        } else if (client[i].id != server[i].id) {
+            console.log('Änderung');
+        }
+    }
+}
+
+//Check for changes
+function checkChanges() {
+    // Lokalen Stand auslesen
+
+    if (nowJSON.length == 0) {
+        let tasks = document.getElementsByClassName('check-mark');
+        const regexId = /\d/g;
+        for (let i = 0; i < tasks.length; i++) {
+            const elemNow = tasks[i];
+            const idNow = elemNow.id.match(regexId);
+            const status = elemNow.classList.contains('checked');
+            if (idNow.length > 1) {
+                let id = '';
+                for (let x = 0; x < idNow.length; x++) {
+                    id += idNow[x];
+                }
+                id = Number(id);
+                nowJSON[i] = { 'id': id, 'status': status }
+            } else {
+                nowJSON[i] = { 'id': Number(idNow[0]), 'status': status };
+            }
+        }
+        console.log('☺');
+
+    }
+    console.log('Local: ', nowJSON);
+
+    // Aktuellen Stand aus der Datenbank abrufen
+    console.log(url + '?get_tasks=1');
+
+    fetch('api.php?get_tasks=1').then(resp => 
+        resp.json()
+    ).then((data) => {
+        console.log('Server: ', data);
+        if (nowJSON != data) {
+            compareChanges(nowJSON, data);
+        }
+        nowJSON = data;
+
+    }).catch((err) => {
+        console.warn(err);
+    });
+
 }
