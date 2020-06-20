@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="popup.css">
     <!--Script-->
     <script src="popup.js"></script>
+    <script src="class.js"></script>
     <!--Titel-->
     <title>To-do Liste Dev Edition</title>
 </head>

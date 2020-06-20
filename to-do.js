@@ -2,30 +2,11 @@
 const body = document.body;
 const url = 'api.php';
 var nowJSON = [];
+var to_do = new ToDo();
 
 //Autostart
 ReadCookie();
 setInterval(checkChanges, 20000);
-
-//Überprüfen, ob nach dem Löschen noch Aufgaben vorhanden sind
-//Wenn nicht wird "Huch, (noch) keine Aufgaben...  Das ist doch nicht möglich!😉" ausgeben
-function checkAfterDelete() {
-    const tasks = document.getElementsByClassName('item-div');
-    let output = document.getElementById('list');
-    var status = true;
-
-    for (var i = 0; i < tasks.length; i++) {
-        if (tasks[i].style.display != 'none') {
-            status = false;
-        }
-    }
-
-    if (status) {
-        console.log('Huch, (noch) keine Aufgaben...  Das ist doch nicht möglich!😉');
-        output.innerHTML = '<p>Huch, (noch) keine Aufgaben...</p><p>Das ist doch nicht möglich!😉</p>';
-    }
-}
-
 
 //Löschen
 //Alle erledigten Aufgaben löschen
@@ -75,19 +56,16 @@ function deleteRequest(x) {
         console.log(result);
         if (result.ok) {
             if (typeof (x) == "number") {
-                let deletedElement = document.getElementById('item-' + x);
-                deletedElement.style.display = 'none';
-                checkAfterDelete();
+                to_do.deleteTask(x);
             } else {
                 location.reload();
             }
         } else {
             throw new Error('Network response was not ok');
         }
-    })
-        .catch((error) => {
-            console.error('Fehler beim löschen: ' + error);
-        });
+    }).catch((error) => {
+        console.error('Fehler beim löschen: ' + error);
+    });
 
 }
 
@@ -199,61 +177,6 @@ function accountDelete() {
     );
 }
 
-function newTask(title = String, status = Boolean, id = Number) {
-    let listContainer = document.getElementById('list');
-
-    //Container
-    let newTask = document.createElement('DIV');
-    newTask.classList.add('item-div');
-    newTask.setAttribute('id', 'item-' + id);
-    listContainer.appendChild(newTask);
-
-    //Link
-    let newTaskLink = document.createElement('A');
-    newTaskLink.classList.add('item-title');
-    newTaskLink.setAttribute('onclick', 'ToggleStatus(' + id + ');');
-    newTaskLink.innerHTML = title;
-    newTask.appendChild(newTaskLink);
-
-    //Checkbox
-    let newCheckbox = document.createElement('SPAN');
-    newCheckbox.classList.add('check-mark');
-    if (status) {
-        newCheckbox.classList.add('checked');
-    }
-    newCheckbox.setAttribute('id', 'checkbox-' + id);
-    newTaskLink.appendChild(newCheckbox);
-
-    //Löschen Button
-    let newDeleteButton = document.createElement('BUTTON');
-    newDeleteButton.classList.add('delete-button');
-    newDeleteButton.setAttribute('onclick', 'deleteRequest("' + id + '");');
-    newDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-    newTask.appendChild(newDeleteButton);
-}
-
-function compareChanges(client = Array, server = Array) {
-    console.log('+1');
-    
-    if (client.length == server.length) {
-        var max = client.length;
-    } else if (client.length < server.length) {
-        var max = server.length;
-    } else if (client.length > server.length) {
-        var max = client.length;
-    }
-
-    for (let i = 0; i < max; i++) {
-        if (i >= client.length) {
-            let task = server[i];
-            newTask(task.title, task.status, task.id);
-            console.log('Neue Aufgabe: ', task);
-        } else if (client[i].id != server[i].id) {
-            console.log('Änderung');
-        }
-    }
-}
-
 //Check for changes
 function checkChanges() {
     // Lokalen Stand auslesen
@@ -289,7 +212,7 @@ function checkChanges() {
     ).then((data) => {
         console.log('Server: ', data);
         if (nowJSON != data) {
-            compareChanges(nowJSON, data);
+            to_do.compareChanges(nowJSON, data);
         }
         nowJSON = data;
 
