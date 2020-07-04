@@ -1,7 +1,7 @@
 //Variablen
 const body = document.body;
 const url = 'api.php';
-var to_do = new ToDo(false);
+var to_do = new ToDo(true);
 
 //Autostart
 to_do.ReadCookie();
