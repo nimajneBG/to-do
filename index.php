@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Einfach eine digitale To-Do Liste">
     <!--CSS & Schriftarten-->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@700&display=swap" rel="stylesheet">
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="css/popup.css">
     <!--Script-->
-    <script src="popup.js"></script>
-    <script src="class.js"></script>
+    <script src="js/popup.js"></script>
+    <script src="js/class.js"></script>
     <!--Titel-->
     <title>To-do Liste Dev Edition</title>
 </head>
@@ -26,7 +26,7 @@
     include 'login.inc.php';
     ?>
 
-    <script src="to-do.js"></script>
+    <script src="js/to-do.js"></script>
 
     <!--NoScript-->
     <noscript>
