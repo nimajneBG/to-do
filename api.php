@@ -43,7 +43,7 @@ if (isset($_POST["del"])) {
     }
 }
 
-//Änderungen Abrufen
+//Aktuellen stand abrufen
 if (isset($_GET["get_tasks"])) {
     //Aus der Datenbank abrufen (SQL)
     $statement = $db->prepare("SELECT `title`, `status`, `id` FROM `tasks` WHERE `user`=?");

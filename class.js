@@ -1,4 +1,62 @@
 class ToDo {
+    constructor(debug) {
+        this.nowJSON = [];
+        this.debug = debug;
+    }
+
+    // Debug output
+    debugOut(text) {
+        if (this.debug) {
+            console.log(text);
+        }
+    }
+
+    //Check for changes
+    checkChanges() {
+        // Lokalen Stand auslesen
+
+        this.debugOut(this.nowJSON);
+
+        if (this.nowJSON.length == 0) {
+            let tasks = document.getElementsByClassName('check-mark');
+            const regexId = /\d/g;
+            for (let i = 0; i < tasks.length; i++) {
+                const elemNow = tasks[i];
+                const idNow = elemNow.id.match(regexId);
+                const status = elemNow.classList.contains('checked');
+                if (idNow.length > 1) {
+                    let id = '';
+                    for (let x = 0; x < idNow.length; x++) {
+                        id += idNow[x];
+                    }
+                    id = Number(id);
+                    this.nowJSON[i] = { 'id': id, 'status': status }
+                } else {
+                    this.nowJSON[i] = { 'id': Number(idNow[0]), 'status': status };
+                }
+            }
+            this.debugOut('☺');
+
+        }
+        this.debugOut('Local: ', this.nowJSON);
+
+        // Aktuellen Stand aus der Datenbank abrufen
+        fetch('api.php?get_tasks=1').then(resp =>
+            resp.json()
+        ).then((data) => {
+            this.debugOut('Server: ', data);
+            if (this.nowJSON != data) {
+                this.compareChanges(this.nowJSON, data);
+            }
+            this.nowJSON = data;
+
+        }).catch((err) => {
+            console.warn(err);
+        });
+
+    }
+
+    // Neue Aufgabe hinzufügen
     newTask(title = String, status = Boolean, id = Number) {
         let listContainer = document.getElementById('list');
 
@@ -54,37 +112,57 @@ class ToDo {
 
 
     compareChanges(client = Array, server = Array) {
-        
-        if (client.length == server.length) {
-            var max = client.length;
-        } else if (client.length < server.length) {
-            var max = server.length;
-        } else if (client.length > server.length) {
-            var max = client.length;
-        }
-    
-        for (let i = 0; i < max; i++) {            
-            if (i >= client.length) {
-                let task = server[i];
-                this.newTask(task.title, task.status, task.id);
-                console.log('Neue Aufgabe: ', task);
-            } else if (i >= server.length) {
-                console.log(`Aufgabe ${client[i].id} gelöscht`);
-                this.deleteTask(client[i].id);
-            } else if (client[i].id != server[i].id && client[i].id < server[i].id) {
-                this.deleteTask(client[i].id);
-                console.log(`Aufgabe ${client[i].id} gelöscht`);
+        if (server != client) {
+            let max = client.length;
+
+            for (let i = 0; i < max; i++) {
+                let j = 0;
+                
+
+                this.debugOut(`Client: ${(client[i].id != undefined) ? client[i].id : 'undefined'} & Server: ${(server[i].id != undefined) ? server[i].id : 'undefined'} `);
+
             }
-            console.log(server[i].id);
-            
+
+            // Alles was hinter den Elementen von client ist muss auf jeden Fall neu sein
+            let definitivNew = server.length - client.length;
+
+            //Kleiner werden Zählschleife, weil die Aufgaben in der richtigen Reinfolge hinzugefügt werden müssen
+            for (let k = definitivNew; k > 0; k--) {
+                let tasks = server[server.length - k];
+                this.newTask(tasks.title, tasks.status, tasks.id);
+                this.debugOut(`Neue Aufgabe "${tasks.title}" hinzufügen`);
+
+            }
+        } else {
+            this.debugOut('Keine Änderungen');
+
         }
+
     }
 
 
-    deleteTask(x) {
-        let deletedElement = document.getElementById('item-' + x);
+    deleteTask(id = Number) {
+        let deletedElement = document.getElementById('item-' + id);
         deletedElement.style.display = 'none';
         this.checkAfterDelete();
     }
 
+
+    //Cookies für die Darkmode auslesen
+    //Obwohl es eigentlich gar keine Cookies sind :-)
+    ReadCookie() {
+
+        if (localStorage.getItem('darkmode') == 'true') {
+            body.classList.add('dark');
+        }
+
+    }
+
+
+    // Status sichtbar ändern
+    changeStatus(id = Number) {
+        let checkbox = document.getElementById("checkbox-" + id);
+
+        checkbox.classList.toggle('checked');
+    }
 }

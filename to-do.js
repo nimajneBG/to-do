@@ -1,12 +1,12 @@
 //Variablen
 const body = document.body;
 const url = 'api.php';
-var nowJSON = [];
-var to_do = new ToDo();
+var to_do = new ToDo(false);
 
 //Autostart
-ReadCookie();
-setInterval(checkChanges, 20000);
+to_do.ReadCookie();
+// Alle 20 Sekunden auf Änderungen prüfen
+setInterval(() => to_do.checkChanges(), 20000);
 
 //Löschen
 //Alle erledigten Aufgaben löschen
@@ -25,7 +25,7 @@ function Delete() {
     p.create().then(
         (result) => {
             if (result == "ok") {
-                //AJAX Zeug
+                //Request senden
                 deleteRequest('y');
 
             } else if (result == "cancel") {
@@ -34,7 +34,7 @@ function Delete() {
             }
         },
         (err) => {
-            console.log(err); //What should happen if something goes wrong
+            console.error(err); //What should happen if something goes wrong
         }
     );
 
@@ -53,7 +53,7 @@ function deleteRequest(x) {
         }
     )
     fetch(r).then((result) => {
-        console.log(result);
+        to_do.debugOut(result);
         if (result.ok) {
             if (typeof (x) == "number") {
                 to_do.deleteTask(x);
@@ -71,8 +71,6 @@ function deleteRequest(x) {
 
 //Abhacken
 function ToggleStatus(id = Number) {
-    let checkbox = document.getElementById("checkbox-" + id);
-
     const r = new Request(
         url,
         {
@@ -85,7 +83,7 @@ function ToggleStatus(id = Number) {
         console.log(result);
         if (result.ok) {
             console.log('✅');
-            checkbox.classList.toggle('checked');
+            to_do.changeStatus(id);
         } else {
             throw new Error('Network response was not ok');
         }
@@ -105,16 +103,6 @@ function ToggleDarkmode() {
     } else {
         body.classList.add('dark');
         localStorage.setItem('darkmode', true);
-    }
-
-}
-
-//Cookies für die Darkmode auslesen
-//Obwohl es eigentlich gar keine Cookies sind :-)
-function ReadCookie() {
-
-    if (localStorage.getItem('darkmode') == 'true') {
-        body.classList.add('dark');
     }
 
 }
@@ -175,49 +163,4 @@ function accountDelete() {
             console.warn(err);
         }
     );
-}
-
-//Check for changes
-function checkChanges() {
-    // Lokalen Stand auslesen
-
-    if (nowJSON.length == 0) {
-        let tasks = document.getElementsByClassName('check-mark');
-        const regexId = /\d/g;
-        for (let i = 0; i < tasks.length; i++) {
-            const elemNow = tasks[i];
-            const idNow = elemNow.id.match(regexId);
-            const status = elemNow.classList.contains('checked');
-            if (idNow.length > 1) {
-                let id = '';
-                for (let x = 0; x < idNow.length; x++) {
-                    id += idNow[x];
-                }
-                id = Number(id);
-                nowJSON[i] = { 'id': id, 'status': status }
-            } else {
-                nowJSON[i] = { 'id': Number(idNow[0]), 'status': status };
-            }
-        }
-        console.log('☺');
-
-    }
-    console.log('Local: ', nowJSON);
-
-    // Aktuellen Stand aus der Datenbank abrufen
-    console.log(url + '?get_tasks=1');
-
-    fetch('api.php?get_tasks=1').then(resp => 
-        resp.json()
-    ).then((data) => {
-        console.log('Server: ', data);
-        if (nowJSON != data) {
-            to_do.compareChanges(nowJSON, data);
-        }
-        nowJSON = data;
-
-    }).catch((err) => {
-        console.warn(err);
-    });
-
 }
