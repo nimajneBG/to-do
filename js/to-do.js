@@ -1,7 +1,24 @@
+// IE erkennen
+document.body.onload = function () {
+    /* var weil Alle Versionen > IE11 kein let oder const supportet 
+    und der Code ja da funktionieren muss um sie zu erkennen */
+    var IE10 = /MSIE/i;
+    var IE11 = /Trident/i;
+    
+    if (IE10.test(navigator.userAgent) || IE11.test(navigator.userAgent)) {
+        document.getElementById('ie').style.display = 'block';
+        
+        console.log('Scheiß IE');
+    }
+
+    console.log('IE wurde geprüft');
+}
+
 //Variablen
 const body = document.body;
 const url = 'api.php';
 var to_do = new ToDo(true);
+
 
 //Autostart
 to_do.ReadCookie();
@@ -126,13 +143,16 @@ function info() {
 function openSettings() {
     const einstellungen = document.getElementById('accountSettings');
     const btn = document.getElementById('deleteAllBtn');
+    const tasksContainer = document.getElementById('mainConntent');
 
     if (einstellungen.style.display == 'block') {
         einstellungen.style.display = 'none';
-        btn.style.display = 'block';
+        btn.classList.remove('mobil-invisible');
+        tasksContainer.classList.remove('mobil-invisible');
     } else {
         einstellungen.style.display = 'block';
-        btn.style.display = 'none'; //Löschen Button ausblenden
+        btn.classList.add('mobil-invisible');
+        tasksContainer.classList.add('mobil-invisible');
     }
 
 }

@@ -37,6 +37,17 @@
         </div>
     </noscript>
 
+    <!--IE-->
+    <div class="noscript" id="ie">
+        <h1>Du scheinst Internet Explorer zu nutzen</h1>
+        <h3>Bitte such dir einen anständigen Browser wie Firefox oder Chrome</h3>
+        <p>Diese Seite nutzt <b>moderne</b> Webtechnologien, die von Internet Explorer nicht unterstützt werden.</p>
+        <p>
+            <a href="https://www.mozilla.org/de/firefox/new/">Firefox herunterladen</a> | 
+            <a href="https://www.google.com/intl/de/chrome/">Chrome herunterladen</a>
+        </p>
+    </div>
+
     <!--Header mit buttons-->
     <header>
         <h1>To-do Liste Dev Edition</h1>

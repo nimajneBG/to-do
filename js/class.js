@@ -1,5 +1,5 @@
 class ToDo {
-    constructor(debug) {
+    constructor(debug = Boolean) {
         this.nowJSON = [];
         this.debug = debug;
     }
@@ -24,21 +24,11 @@ class ToDo {
                 const elemNow = tasks[i];
                 const idNow = elemNow.id.match(regexId);
                 const status = elemNow.classList.contains('checked');
-                if (idNow.length > 1) {
-                    let id = '';
-                    for (let x = 0; x < idNow.length; x++) {
-                        id += idNow[x];
-                    }
-                    id = Number(id);
-                    this.nowJSON[i] = { 'id': id, 'status': status }
-                } else {
-                    this.nowJSON[i] = { 'id': Number(idNow[0]), 'status': status };
-                }
+                this.nowJSON[i] = { 'id': Number(idNow.join('')), 'status': status };
             }
-            this.debugOut('☺');
 
         }
-        this.debugOut('Local: ', this.nowJSON);
+        this.debugOut(`Local: ${this.nowJSON}`);
 
         // Aktuellen Stand aus der Datenbank abrufen
         fetch('api.php?get_tasks=1').then(resp =>
@@ -91,8 +81,8 @@ class ToDo {
     }
 
 
-    //Überprüfen, ob nach dem Löschen noch Aufgaben vorhanden sind
-    //Wenn nicht wird "Huch, (noch) keine Aufgaben...  Das ist doch nicht möglich!😉" ausgeben
+    // Überprüfen, ob nach dem Löschen noch Aufgaben vorhanden sind
+    // Wenn nicht wird "Huch, (noch) keine Aufgaben...  Das ist doch nicht möglich!😉" ausgeben
     checkAfterDelete() {
         const tasks = document.getElementsByClassName('item-div');
         let output = document.getElementById('list');
@@ -155,6 +145,12 @@ class ToDo {
         let deletedElement = document.getElementById('item-' + id);
         deletedElement.style.display = 'none';
         this.checkAfterDelete();
+    }
+
+
+    // Löschen von allen erledigten Aufgaben
+    deleteAllChecked() {
+        let tasks = document.getElementsByClassName('');
     }
 
 

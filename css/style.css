@@ -40,7 +40,9 @@ body {
     --schatten: #000;
 }
 
-button, button[type=submit], #buttonAdd {
+button,
+button[type=submit],
+#buttonAdd {
     outline: none;
 }
 
@@ -56,9 +58,16 @@ button, button[type=submit], #buttonAdd {
     padding-top: 200px;
 }
 
-.noscript h1, .noscript h3, .noscript p, .noscript a {
+.noscript h1,
+.noscript h3,
+.noscript p,
+.noscript a {
     color: #fff !important;
     line-height: 1.5;
+}
+
+#ie {
+    display: none;
 }
 
 header {
@@ -87,7 +96,8 @@ header h1 {
     line-height: 1;
 }
 
-header button, main#accountSettings button {
+header button,
+main#accountSettings button {
     background-color: transparent;
     border: none;
     padding-left: 5px;
@@ -107,12 +117,12 @@ header button i {
 
 main {
     margin-top: 135px;
-    margin-bottom: 65px;
     width: 100%;
 }
 
 main#mainConntent {
     display: block;
+    margin-bottom: 65px;
 }
 
 code {
@@ -138,7 +148,8 @@ div.item-div:hover {
     transform: scale(1.007);
 }
 
-div.item-div button, div.item-div a.item-title {
+div.item-div button,
+div.item-div a.item-title {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -203,7 +214,8 @@ input {
     background-color: var(--fg);
 }
 
-input[type=submit], main#accountSettings form button {
+input[type=submit],
+main#accountSettings form button {
     padding: 5px;
     text-align: center;
     cursor: pointer;
@@ -215,10 +227,11 @@ input[type=submit], main#accountSettings form button {
     appearance: none !important;
 }
 
-.settingsSubmitBtn {
-    width: 70% !important;
-    margin-left: 15%;
-    margin-right: 15%;
+main#accountSettings {
+    display: none;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .form-new input[type=submit] {
@@ -251,6 +264,54 @@ main#accountSettings hr {
     margin-bottom: 10px;
 }
 
+form#delete-account {
+    padding-bottom: 55px;
+}
+
+main#accountSettings h3 {
+    font-family: 'Josefin Slab', 'DejaVu Serif', -apple-system, Times, 'Times New Roman', serif;
+    font-size: 22pt;
+    display: inline;
+}
+
+main#accountSettings i {
+    font-size: 20px;
+    margin-top: 4px;
+}
+
+main#accountSettings form {
+    display: block;
+    box-sizing: border-box;
+}
+
+main#accountSettings form label {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+main#accountSettings form input[type=submit],
+main#accountSettings form button {
+    font-size: 14pt;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    height: 37.6px;
+    display: block;
+    box-sizing: border-box;
+    position: static;
+}
+
+main#accountSettings form input[type=text],
+main#accountSettings form input[type=password],
+main#accountSettings form input[type=email] {
+    color: var(--text);
+    background-color: var(--fg);
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .form-check {
     display: inline;
 }
@@ -267,39 +328,43 @@ main#accountSettings hr {
     color: var(--fertig);
 }
 
-@media screen and (max-width: 500px) and (orientation: portrait) {
+
+/* Reponsive Design */
+@media screen and (max-width: 750px) {
     header h1 {
         display: none;
     }
+
     main {
         margin-top: 65px;
     }
-}
 
-@media screen and (max-width: 700px) and (orientation: landscape) {
-    header h1 {
+    /* Aufgaben unsichtbar machen, wenn Einstellungen offen sind */
+    .mobil-invisible {
+        display: none !important;
+    }
+
+    main#accountSettings div.secondHeader button:last-child {
         display: none;
     }
-    main {
-        margin-top: 65px;
+
+    main#accountSettings form input[type=submit],
+    main#accountSettings form button {
+        width: 100%;
     }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 751px) {
     main#accountSettings {
-        display: none;
-        padding: 10px;
-        box-sizing: border-box;
         margin: 0 !important;
         position: fixed;
         z-index: 3;
         top: 0;
         left: 0;
-        width: 100%;
         height: 100%;
         background-color: var(--popUpBg);
     }
-    
+
     main#accountSettings div.settingsContent {
         margin: 30px auto;
         max-width: 550px;
@@ -308,60 +373,19 @@ main#accountSettings hr {
         border-radius: 5px;
         box-sizing: border-box;
     }
-    main#accountSettings h3 {
-        font-family: 'Josefin Slab', 'DejaVu Serif', -apple-system, Times, 'Times New Roman', serif;
-        font-size: 22pt;
-        display: inline;
-    }
-    
+
     main#accountSettings div button#close {
         float: right;
         padding-right: 0;
     }
-    
-    main#accountSettings i {
-        font-size: 20px;
-        margin-top: 4px;
-    }
-    
-    main#accountSettings form {
-        display: block;
-        box-sizing: border-box;
-    }
-    
-    main#accountSettings form label {
-        display: block;
-        margin-bottom: 10px;
-        margin-top: 10px;
-    }
-    
-    main#accountSettings form input, main#accountSettings form button {
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    main#accountSettings form input[type=text], main#accountSettings form input[type=password], main#accountSettings form input[type=email] {
-        color: var(--text);
-        background-color: var(--fg);
-    }
-    
-    main#accountSettings form input[type=submit], main#accountSettings form button {
-        font-size: 14pt;
-        margin-top: 18px;
-        margin-bottom: 10px;
-        padding: 8px;
-        border-radius: 5px;
-        height: 37.6px;
-        display: block;
-        box-sizing: border-box;
-        position: static;
+
+    .settingsSubmitBtn {
+        width: 70% !important;
+        margin-left: 15%;
+        margin-right: 15%;
     }
 
-    main#accountSettings div.secondHeader:first-child {
+    main#accountSettings div.secondHeader button:first-child {
         display: none;
-    }
-    
-    form#delete-account {
-        padding-bottom: 55px;
     }
 }
