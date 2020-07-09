@@ -20,6 +20,20 @@
     --popUpBg: rgba(26, 26, 26, 0.7);
 }
 
+/* Darkmode */
+.dark {
+    --header-bg: #00004d;
+    /* #00004d */
+    --text: whitesmoke;
+    /* whitesmoke */
+    --bg: #262626;
+    /* #262626 */
+    --fg: #0d0d0d;
+    /* #0d0d0d */
+    --schatten: #000;
+    /* #000 */
+}
+
 * {
     font-family: 'Ubuntu', 'Arial', sans-serif;
     padding: 0;
@@ -32,17 +46,11 @@ body {
     font-size: 14pt;
 }
 
-.dark {
-    --header-bg: #00004d;
-    --text: whitesmoke;
-    --bg: #262626;
-    --fg: #0d0d0d;
-    --schatten: #000;
-}
-
 button,
 button[type=submit],
-#buttonAdd {
+#buttonAdd,
+div.item-div button,
+div.item-div a.item-title {
     outline: none;
 }
 
@@ -66,7 +74,8 @@ button[type=submit],
     line-height: 1.5;
 }
 
-#ie {
+#ie,
+.form-check input {
     display: none;
 }
 
@@ -85,12 +94,16 @@ header {
 
 .noscript h1 {
     font-size: 45px;
+}
+
+.noscript h1,
+header h1,
+main#accountSettings h3 {
     font-family: 'Josefin Slab', 'DejaVu Serif', -apple-system, Times, 'Times New Roman', serif;
 }
 
 header h1 {
     color: var(--header-text) !important;
-    font-family: 'Josefin Slab', 'DejaVu Serif', -apple-system, Times, 'Times New Roman', serif;
     margin-bottom: 0;
     padding-bottom: 0;
     line-height: 1;
@@ -155,7 +168,6 @@ div.item-div a.item-title {
     cursor: pointer;
     font-size: 14pt;
     text-align: left;
-    outline: none;
     display: block;
     user-select: none;
     -moz-user-select: none;
@@ -210,10 +222,6 @@ input {
     outline: none;
 }
 
-.form-new input {
-    background-color: var(--fg);
-}
-
 input[type=submit],
 main#accountSettings form button {
     padding: 5px;
@@ -243,6 +251,7 @@ main#accountSettings {
 
 .form-new input[type=text] {
     flex-grow: 1;
+    background-color: var(--fg);
 }
 
 .overlay-footer {
@@ -269,7 +278,6 @@ form#delete-account {
 }
 
 main#accountSettings h3 {
-    font-family: 'Josefin Slab', 'DejaVu Serif', -apple-system, Times, 'Times New Roman', serif;
     font-size: 22pt;
     display: inline;
 }
@@ -314,10 +322,6 @@ main#accountSettings form input[type=email] {
 
 .form-check {
     display: inline;
-}
-
-.form-check input {
-    display: none;
 }
 
 .fa-times-circle {
