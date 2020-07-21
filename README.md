@@ -39,15 +39,15 @@ Einfach Issues, Forks und Pullrequests machen.
 
 ## 3. Genutzte Librarys / Code Snippets
 
-- Font Awesome 5 Free für die Icons [Lizenz](https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
+- [Font Awesome 5 Free](https://github.com/FortAwesome/Font-Awesome/) für die Icons
 
-- Pop Ups [Code](https://github.com/nimajneBG/Pop-up-Library) (MIT Lizenz)
+- [Pop Ups](https://github.com/nimajneBG/Pop-up-Library) (MIT Lizenz)
 
-- Markdown Syntax (**Fett** und *Kursiv*) Erkennung von Gregor Parzefall
+- Markdown Syntax (\*\*Fett** und \*Kursiv*) Erkennung von Gregor Parzefall
 
 ## 4. Lizenz
 
-Muss ich mir noch überlegen
+Dieses Projekt ist unter der GNU General Public License (GPL)veröffentlicht.
 
 ---
 &copy; by Benjamin Grau
