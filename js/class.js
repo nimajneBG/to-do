@@ -19,12 +19,11 @@ class ToDo {
 
         if (this.nowJSON.length == 0) {
             let tasks = document.getElementsByClassName('check-mark');
-            const regexId = /\d/g;
             for (let i = 0; i < tasks.length; i++) {
                 const elemNow = tasks[i];
-                const idNow = elemNow.id.match(regexId);
+                const idNow = Number(elemNow.id.slice(9, elemNow.id.length))
                 const status = elemNow.classList.contains('checked');
-                this.nowJSON[i] = { 'id': Number(idNow.join('')), 'status': status };
+                this.nowJSON[i] = { 'id': idNow, 'status': status };
             }
 
         }

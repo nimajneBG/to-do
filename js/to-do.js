@@ -1,6 +1,6 @@
 // IE erkennen
 document.body.onload = function () {
-    /* var weil Alle Versionen > IE11 kein let oder const supportet 
+    /* var weil alle Versionen > IE11 kein let oder const supportet 
     und der Code ja da funktionieren muss um sie zu erkennen */
     var IE10 = /MSIE/i;
     var IE11 = /Trident/i;
