@@ -47,7 +47,7 @@ Einfach Issues, Forks und Pullrequests machen.
 
 ## 4. Lizenz
 
-Dieses Projekt ist unter der GNU General Public License (GPL)veröffentlicht.
+Dieses Projekt ist unter der GNU General Public License (GPL) veröffentlicht.
 
 ---
 &copy; by Benjamin Grau
