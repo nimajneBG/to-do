@@ -52,10 +52,12 @@
     <header>
         <h1>To-do Liste Dev Edition</h1>
         <div class="buttons">
-            <button type="button" title="Erledigte Aufgaben löschen" onclick="Delete();" id="deleteAllBtn"><i class="fas fa-trash"></i></button>
-            <button type="button" title="Darkmode EIN/AUS" onclick="ToggleDarkmode();"><i class="fas fa-adjust"></i></button>
+            <button type="button" title="Erledigte Aufgaben löschen" onclick="Delete();" id="deleteAllBtn"><?php include 'icons/trash.min.svg'; ?></button>
+            <button type="button" title="Darkmode EIN/AUS" onclick="ToggleDarkmode();"><?php include 'icons/darkmode.min.svg'; ?></button>
             <button type="button" title="Info" onclick="info();"><i class="fas fa-info"></i></button>
-            <button title="Konto" onclick="openSettings();" style="float: right; margin-right: 20px;"><i class="fas fa-user"></i></button>
+            <button title="Konto" onclick="openSettings();" style="float: right; margin-right: 20px;">
+                <?php include 'icons/profile.min.svg'; ?>
+            </button>
         </div>
     </header>
 
@@ -132,7 +134,9 @@
                     //Label schließen
                     echo '</a>';
                     //Löschen Button
-                    echo '<button class="delete-button" onclick="deleteRequest(' . $row["id"] . ')"><i class="fas fa-trash"></i></button>';
+                    echo '<button class="delete-button" onclick="deleteRequest(' . $row["id"] . ')">'; 
+                    include 'icons/trash.min.svg';
+                    echo '</button>';
 
                     echo '</div>';
                 }

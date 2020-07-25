@@ -43,7 +43,7 @@ Einfach Issues, Forks und Pullrequests machen.
 
 - [Pop Ups](https://github.com/nimajneBG/Pop-up-Library) (MIT Lizenz)
 
-- Markdown Syntax (\*\*Fett** und \*Kursiv*) Erkennung von Gregor Parzefall
+- Markdown Syntax (**\*\*Fett\*\*** und *\*Kursiv\**) Erkennung von Gregor Parzefall
 
 ## 4. Lizenz
 

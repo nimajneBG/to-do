@@ -128,6 +128,18 @@ header button i {
     font-size: 14pt;
 }
 
+header button svg {
+    height: 1.2em;
+}
+
+header button svg path, header button svg rect, header button svg circle {
+    stroke: var(--header-text);
+}
+
+svg.darkmode-icon path {
+    fill: var(--header-text);
+}
+
 main {
     margin-top: 135px;
     width: 100%;
@@ -206,6 +218,14 @@ div.item-div a.item-title span.check-mark.checked::after {
     transform: rotate(45deg);
     left: 5px;
     top: 1px;
+}
+
+div.item-div svg {
+    height: 1.05em;
+}
+
+div.item-div svg path, div.item-div svg rect {
+    stroke: var(--text);
 }
 
 .form-new {
@@ -359,6 +379,7 @@ main#accountSettings form input[type=email] {
 }
 
 @media screen and (min-width: 751px) {
+    header {padding-bottom: 10px;}
     main#accountSettings {
         margin: 0 !important;
         position: fixed;
