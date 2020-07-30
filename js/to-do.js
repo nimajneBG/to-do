@@ -21,6 +21,7 @@ var to_do = new ToDo(true);
 
 
 //Autostart
+to_do.loadIcon();
 to_do.ReadCookie();
 // Alle 20 Sekunden auf Änderungen prüfen
 setInterval(() => to_do.checkChanges(), 20000);

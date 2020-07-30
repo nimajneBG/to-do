@@ -4,6 +4,13 @@ class ToDo {
         this.debug = debug;
     }
 
+    async loadIcon() {
+        fetch('icons/trash.min.svg').then(resp => resp.text()).then((svg) => {
+            this.TRASH_SVG = svg;
+            this.debugOut(`SVG: ${svg}`);
+        });
+    }
+
     // Debug output
     debugOut(text) {
         if (this.debug) {
@@ -75,7 +82,7 @@ class ToDo {
         let newDeleteButton = document.createElement('BUTTON');
         newDeleteButton.classList.add('delete-button');
         newDeleteButton.setAttribute('onclick', 'deleteRequest("' + id + '");');
-        newDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        newDeleteButton.innerHTML = this.TRASH_SVG;
         newTask.appendChild(newDeleteButton);
     }
 
