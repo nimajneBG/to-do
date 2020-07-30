@@ -31,7 +31,8 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 	position: fixed;
 	bottom: 12px;
 	left: 0;
-	width: 100%;
+    width: 100%;
+    z-index: 10;
 }
 
 .toast-bg~.toast-bg {
