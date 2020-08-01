@@ -116,12 +116,16 @@ class ToDo {
                 let j = 0;
 
                 // Gleiche Aufgabe
-                if (client[i + j].id == server[i].id) {
+                if (client[i].id == server[i - j].id) {
                     // Überprüfen ob der Status ungleich ist
-                    if (client[i + j].status != server[i].status) {
+                    if (client[i].status != server[i - j].status) {
                         // Status anpassen
-                        this.changeStatus(client[i + j].id);
-                        this.debugOut(`Status von "${client[i + j].title}" ändern`);
+                        this.changeStatus(client[i].id);
+                        this.debugOut(`Status von "${client[i].title}" ändern`);
+                    }
+                } else {
+                    if (client[i] < server[i - j]) {
+                        
                     }
                 }
 
