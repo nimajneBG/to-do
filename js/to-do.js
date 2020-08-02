@@ -128,7 +128,7 @@ function ToggleDarkmode() {
 //Info
 function info() {
     let infoPopup = new PopUp({
-        "message": "<p>Webbasierte To-do Liste</p><p>Entwickelt von Benjamin Grau. Diese To-do Liste ist in <code>PHP</code>, <code>SQL</code> (<code>MySQLi Procedural</code>), <code>HTML</code>, <code>CSS</code> und <code>Java Script</code> (<code>AJAX</code>) geschrieben</p>Version: 1.0 (Dev Version)<br><br>Dieses Programm benutzt Font Awesome 5 Free für die Icons",
+        "message": "<p>Webbasierte To-do Liste</p><p>Entwickelt von Benjamin Grau. Diese To-do Liste ist in <code>PHP</code>, <code>SQL</code> (<code>MySQLi OOP</code>), <code>HTML</code>, <code>CSS</code> und <code>Java Script</code> geschrieben</p>Version: Beta<br><br>Dieses Programm benutzt Font Awesome 5 Free für die Icons",
         "ok": true,
         "cancel": false,
         "custom": false,
