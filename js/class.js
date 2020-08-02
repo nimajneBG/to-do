@@ -34,13 +34,15 @@ class ToDo {
             }
 
         }
-        this.debugOut(`Local: ${this.nowJSON}`);
+        this.debugOut(`Local:`);
+        this.debugOut(this.nowJSON);
 
         // Aktuellen Stand aus der Datenbank abrufen
         fetch('api.php?get_tasks=1').then(resp =>
             resp.json()
         ).then((data) => {
-            this.debugOut('Server: ', data);
+            this.debugOut('Server:');
+            this.debugOut(data)
             if (this.nowJSON != data) {
                 this.compareChanges(this.nowJSON, data);
             }
@@ -59,13 +61,13 @@ class ToDo {
         //Container
         let newTask = document.createElement('DIV');
         newTask.classList.add('item-div');
-        newTask.setAttribute('id', 'item-' + id);
+        newTask.setAttribute('id', `item-${id}`);
         listContainer.appendChild(newTask);
 
         //Link
         let newTaskLink = document.createElement('A');
         newTaskLink.classList.add('item-title');
-        newTaskLink.setAttribute('onclick', 'ToggleStatus(' + id + ');');
+        newTaskLink.setAttribute('onclick', `ToggleStatus(${id});`);
         newTaskLink.innerHTML = title;
         newTask.appendChild(newTaskLink);
 
@@ -75,13 +77,13 @@ class ToDo {
         if (status) {
             newCheckbox.classList.add('checked');
         }
-        newCheckbox.setAttribute('id', 'checkbox-' + id);
+        newCheckbox.setAttribute('id', `checkbox-${id}`);
         newTaskLink.appendChild(newCheckbox);
 
         //Löschen Button
         let newDeleteButton = document.createElement('BUTTON');
         newDeleteButton.classList.add('delete-button');
-        newDeleteButton.setAttribute('onclick', 'deleteRequest("' + id + '");');
+        newDeleteButton.setAttribute('onclick', `deleteRequest("${id}");`);
         newDeleteButton.innerHTML = this.TRASH_SVG;
         newTask.appendChild(newDeleteButton);
     }
@@ -113,36 +115,42 @@ class ToDo {
 
             for (let i = 0; i < max; i++) {
                 // Anzahl gelöschter Aufgaben
-                let j = 0;
+                var j = 0;
+                let x;
 
                 // Gleiche Aufgabe
                 if (client[i].id == server[i - j].id) {
                     // Überprüfen ob der Status ungleich ist
                     if (client[i].status != server[i - j].status) {
                         // Status anpassen
-                        this.changeStatus(client[i].id);
+                        this.changeStatus(client[i].id, client[i].status);
                         this.debugOut(`Status von "${client[i].title}" ändern`);
                     }
-                } else {
-                    if (client[i] < server[i - j]) {
-                        
-                    }
+                    x = 'gleich';
+                } else if (client[i].id < server[i - j].id) {
+                    j++;
+                    this.deleteTask(client[i].id);
+                    x = 'ungleich';
                 }
 
-                this.debugOut(`Client: ${(client[i].id != undefined) ? client[i].id : 'undefined'} & Server: ${(server[i].id != undefined) ? server[i].id : 'undefined'} `);
+                this.debugOut(`Client: ${(client[i].id != undefined) ? client[i].id : 'undefined'} & Server: ${(server[i].id != undefined) ? server[i].id : 'undefined'} sind ${x}; J: ${j}`);
 
             }
 
             // Alles was hinter den Elementen von client ist muss auf jeden Fall neu sein
-            let definitivNew = server.length - client.length;
+            let definitivNew = server.length - client.length + j;
+
+            this.debugOut(`${definitivNew} neue Aufgaben`);
+            this.debugOut('Hallo');
 
             // Kleiner werden Zählschleife, weil die Aufgaben in der richtigen Reinfolge hinzugefügt werden müssen
-            for (let k = definitivNew; k > 0; k--) {
+            for (let k = definitivNew; k >= 0; k--) {
                 let tasks = server[server.length - k];
                 this.newTask(tasks.title, tasks.status, tasks.id);
                 this.debugOut(`Neue Aufgabe "${tasks.title}" hinzufügen`);
 
             }
+
         } else {
             this.debugOut('Keine Änderungen');
 
@@ -176,9 +184,19 @@ class ToDo {
 
 
     // Status sichtbar ändern
-    changeStatus(id = Number) {
-        let checkbox = document.getElementById("checkbox-" + id);
+    toggleStatus(id = Number) {
+        let checkbox = document.getElementById(`checkbox-${id}`);
 
         checkbox.classList.toggle('checked');
+    }
+
+    changeStatus(id = Number, status = Boolean) {
+        let checkbox = document.getElementById(`checkbox-${id}`);
+
+        if (status && !checkbox.classList.contains('checked')) {
+            checkbox.classList.add('checked');
+        } else if (!status && checkbox.classList.contains('checked')) {
+            checkbox.classList.remove('checked');
+        }
     }
 }

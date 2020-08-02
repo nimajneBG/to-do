@@ -101,7 +101,7 @@ function ToggleStatus(id = Number) {
         console.log(result);
         if (result.ok) {
             console.log('✅');
-            to_do.changeStatus(id);
+            to_do.toggleStatus(id);
         } else {
             throw new Error('Network response was not ok');
         }
