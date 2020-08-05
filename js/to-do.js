@@ -113,6 +113,9 @@ function ToggleStatus(id = Number) {
 }
 
 //Darkmode
+/**
+ * Toggle the darkmode
+ */
 function ToggleDarkmode() {
 
     if (body.classList.contains('dark')) {
@@ -126,6 +129,9 @@ function ToggleDarkmode() {
 }
 
 //Info
+/**
+ * Show the info Pop up
+ */
 function info() {
     let infoPopup = new PopUp({
         "message": "<p>Webbasierte To-do Liste</p><p>Entwickelt von Benjamin Grau. Diese To-do Liste ist in <code>PHP</code>, <code>SQL</code> (<code>MySQLi OOP</code>), <code>HTML</code>, <code>CSS</code> und <code>Java Script</code> geschrieben</p>Version: Beta<br><br>Dieses Programm benutzt Font Awesome 5 Free für die Icons",
@@ -141,6 +147,9 @@ function info() {
 }
 
 //Kontoeinstellungen öffnen / schließen
+/**
+ * Open the settings
+ */
 function openSettings() {
     const einstellungen = document.getElementById('accountSettings');
     const btn = document.getElementById('deleteAllBtn');
