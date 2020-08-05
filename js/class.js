@@ -199,4 +199,9 @@ class ToDo {
             checkbox.classList.remove('checked');
         }
     }
+
+    toggleLink(id) {
+        let link = document.querySelector(`div#item-${id} a`);
+        link.classList.toggle('disabled-link');
+    }
 }

@@ -60,21 +60,21 @@ function Delete() {
 
 
 //Request fürs Löschen senden
-function deleteRequest(x) {
+function deleteRequest(id) {
 
     const r = new Request(
         url,
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'del=' + x,
+            body: `del=${id}`,
         }
     )
     fetch(r).then((result) => {
         to_do.debugOut(result);
         if (result.ok) {
             if (typeof (x) == "number") {
-                to_do.deleteTask(x);
+                to_do.deleteTask(id);
             } else {
                 location.reload();
             }
@@ -89,30 +89,30 @@ function deleteRequest(x) {
 
 //Abhacken
 function ToggleStatus(id = Number) {
+    to_do.toggleLink(id);
     const r = new Request(
         url,
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'id=' + id,
+            body: `id=${id}`,
         }
     )
     fetch(r).then((result) => {
         console.log(result);
         if (result.ok) {
-            console.log('✅');
+            to_do.debugOut('✅');
             to_do.toggleStatus(id);
         } else {
             throw new Error('Network response was not ok');
         }
-    })
-        .catch((error) => {
-            console.error('Fehler beim Abhaken: ' + error);
-        });
+        to_do.toggleLink(id);
+    }).catch((error) => {
+        console.error('Fehler beim Abhaken: ' + error);
+    });
 
 }
 
-//Darkmode
 /**
  * Toggle the darkmode
  */

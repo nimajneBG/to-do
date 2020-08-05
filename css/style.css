@@ -193,6 +193,10 @@ div.item-div a.item-title {
     padding-right: 8px;
 }
 
+div.item-div a.disabled-link {
+    pointer-events: none !important;
+}
+
 div.item-div a.item-title span.check-mark {
     position: absolute;
     top: 0;
